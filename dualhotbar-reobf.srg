@@ -1,0 +1,44 @@
+# NeoForge 1.21 uses Mojang (official) mappings at runtime,
+# so the mixin "reobfuscation" mapping is the identity.
+# This file satisfies the Mixin annotation processor's obfuscation lookup
+# for every member this mod references in its mixins.
+CL: net/minecraft/client/gui/Gui net/minecraft/client/gui/Gui
+CL: net/minecraft/client/Minecraft net/minecraft/client/Minecraft
+CL: net/minecraft/world/entity/player/Inventory net/minecraft/world/entity/player/Inventory
+CL: net/minecraft/world/inventory/InventoryMenu net/minecraft/world/inventory/InventoryMenu
+CL: net/minecraft/client/gui/screens/inventory/InventoryScreen net/minecraft/client/gui/screens/inventory/InventoryScreen
+CL: net/minecraft/client/multiplayer/ClientPacketListener net/minecraft/client/multiplayer/ClientPacketListener
+CL: net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen
+CL: net/minecraft/server/network/ServerGamePacketListenerImpl net/minecraft/server/network/ServerGamePacketListenerImpl
+CL: net/minecraft/core/NonNullList net/minecraft/core/NonNullList
+MD: net/minecraft/core/NonNullList/withSize (ILjava/lang/Object;)Lnet/minecraft/core/NonNullList; net/minecraft/core/NonNullList/withSize (ILjava/lang/Object;)Lnet/minecraft/core/NonNullList;
+MD: net/minecraft/client/gui/Gui/renderItemHotbar (Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V net/minecraft/client/gui/Gui/renderItemHotbar (Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V
+MD: net/minecraft/client/Minecraft/handleKeybinds ()V net/minecraft/client/Minecraft/handleKeybinds ()V
+MD: net/minecraft/world/entity/player/Inventory/<init> (Lnet/minecraft/world/entity/player/Player;)V net/minecraft/world/entity/player/Inventory/<init> (Lnet/minecraft/world/entity/player/Player;)V
+MD: net/minecraft/world/entity/player/Inventory/getSelected ()Lnet/minecraft/world/item/ItemStack; net/minecraft/world/entity/player/Inventory/getSelected ()Lnet/minecraft/world/item/ItemStack;
+MD: net/minecraft/world/entity/player/Inventory/swapPaint (D)V net/minecraft/world/entity/player/Inventory/swapPaint (D)V
+MD: net/minecraft/world/inventory/InventoryMenu/<init> (Lnet/minecraft/world/entity/player/Inventory;ZLnet/minecraft/world/entity/player/Player;)V net/minecraft/world/inventory/InventoryMenu/<init> (Lnet/minecraft/world/entity/player/Inventory;ZLnet/minecraft/world/entity/player/Player;)V
+MD: net/minecraft/client/gui/screens/inventory/InventoryScreen/<init> (Lnet/minecraft/world/entity/player/Player;)V net/minecraft/client/gui/screens/inventory/InventoryScreen/<init> (Lnet/minecraft/world/entity/player/Player;)V
+MD: net/minecraft/client/gui/screens/inventory/InventoryScreen/renderBg (Lnet/minecraft/client/gui/GuiGraphics;FII)V net/minecraft/client/gui/screens/inventory/InventoryScreen/renderBg (Lnet/minecraft/client/gui/GuiGraphics;FII)V
+MD: net/minecraft/world/inventory/AbstractContainerMenu/addSlot (Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot; net/minecraft/world/inventory/AbstractContainerMenu/addSlot (Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;
+MD: net/minecraft/world/inventory/InventoryMenu/addSlot (Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot; net/minecraft/world/inventory/InventoryMenu/addSlot (Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;
+MD: net/minecraft/client/multiplayer/ClientPacketListener/handleSetCarriedItem (Lnet/minecraft/network/protocol/game/ClientboundSetCarriedItemPacket;)V net/minecraft/client/multiplayer/ClientPacketListener/handleSetCarriedItem (Lnet/minecraft/network/protocol/game/ClientboundSetCarriedItemPacket;)V
+MD: net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen/selectTab (Lnet/minecraft/world/item/CreativeModeTab;)V net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen/selectTab (Lnet/minecraft/world/item/CreativeModeTab;)V
+MD: net/minecraft/server/network/ServerGamePacketListenerImpl/handleSetCarriedItem (Lnet/minecraft/network/protocol/game/ServerboundSetCarriedItemPacket;)V net/minecraft/server/network/ServerGamePacketListenerImpl/handleSetCarriedItem (Lnet/minecraft/network/protocol/game/ServerboundSetCarriedItemPacket;)V
+FD: net/minecraft/client/gui/Gui/minecraft net/minecraft/client/gui/Gui/minecraft
+FD: net/minecraft/client/Minecraft/options net/minecraft/client/Minecraft/options
+FD: net/minecraft/client/Minecraft/player net/minecraft/client/Minecraft/player
+FD: net/minecraft/world/entity/player/Inventory/items net/minecraft/world/entity/player/Inventory/items
+FD: net/minecraft/world/entity/player/Inventory/selected net/minecraft/world/entity/player/Inventory/selected
+FD: net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/imageHeight net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/imageHeight
+FD: net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/leftPos net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/leftPos
+FD: net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/topPos net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/topPos
+FD: net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/menu net/minecraft/client/gui/screens/inventory/AbstractContainerScreen/menu
+FD: net/minecraft/client/gui/screens/inventory/InventoryScreen/imageHeight net/minecraft/client/gui/screens/inventory/InventoryScreen/imageHeight
+FD: net/minecraft/client/gui/screens/inventory/InventoryScreen/leftPos net/minecraft/client/gui/screens/inventory/InventoryScreen/leftPos
+FD: net/minecraft/client/gui/screens/inventory/InventoryScreen/topPos net/minecraft/client/gui/screens/inventory/InventoryScreen/topPos
+FD: net/minecraft/client/gui/screens/inventory/InventoryScreen/menu net/minecraft/client/gui/screens/inventory/InventoryScreen/menu
+FD: net/minecraft/client/multiplayer/ClientPacketListener/minecraft net/minecraft/client/multiplayer/ClientPacketListener/minecraft
+FD: net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen/menu net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen/menu
+FD: net/minecraft/server/network/ServerGamePacketListenerImpl/player net/minecraft/server/network/ServerGamePacketListenerImpl/player
+FD: net/minecraft/server/network/ServerGamePacketListenerImpl/LOGGER net/minecraft/server/network/ServerGamePacketListenerImpl/LOGGER

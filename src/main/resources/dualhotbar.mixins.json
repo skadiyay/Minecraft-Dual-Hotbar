@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.dualhotbar.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "dualhotbar.refmap.json",
+  "mixins": [
+    "InventoryMixin",
+    "InventoryMenuMixin"
+  ],
+  "client": [
+    "GuiMixin",
+    "MinecraftMixin",
+    "InventoryScreenMixin",
+    "ClientPacketListenerMixin",
+    "CreativeModeInventoryScreenMixin"
+  ],
+  "server": [
+    "ServerGamePacketListenerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

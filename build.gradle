@@ -1,0 +1,74 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.143'
+    id 'idea'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+// Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    // Specify the version of NeoForge to use.
+    version = project.neo_version
+
+    // Default run configurations.
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        // applies to all the run configs above
+        configureEach {
+            // Recommended logging data for a userdev environment
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+dependencies {
+    // Mixin (annotation processing + compile-time annotations).
+    // At runtime NeoForge 1.21.1 already provides Mixin, so compileOnly is enough here.
+    compileOnly "org.spongepowered:mixin:0.8.7"
+    annotationProcessor "org.spongepowered:mixin:0.8.7:processor"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    // Mixin annotation processor: generate the reference map and (identity) srg data.
+    // NeoForge 1.21 runs with Mojang (official) mappings, so the produced map is identity.
+    def buildDir = project.layout.buildDirectory.get().asFile
+    options.compilerArgs += [
+            "-AoutSrgFile=${buildDir}/tmp/mixin/${mod_id}.srg",
+            "-AoutRefMapFile=${buildDir}/resources/main/${mod_id}.refmap.json",
+            "-AdefaultObfuscationEnv=searge",
+            // NeoForge 1.21 runs with official mappings, so the reobf mapping is identity
+            "-AreobfSrgFile=${projectDir}/dualhotbar-reobf.srg"
+    ]
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

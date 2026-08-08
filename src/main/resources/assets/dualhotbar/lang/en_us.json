@@ -1,0 +1,11 @@
+{
+  "key.categories.dualhotbar": "Dual Hotbar",
+  "key.dualhotbar.toggle": "Toggle Side Hotbars",
+  "config.dualhotbar.title": "Dual Hotbar Config",
+  "config.dualhotbar.hotbar_slots": "Bottom hotbar slots",
+  "config.dualhotbar.left_slots": "Left bar slots",
+  "config.dualhotbar.right_slots": "Right bar slots",
+  "config.dualhotbar.left_enabled": "Left bar enabled",
+  "config.dualhotbar.right_enabled": "Right bar enabled",
+  "config.dualhotbar.show_by_default": "Side bars visible by default"
+}

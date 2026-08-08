@@ -1,0 +1,19 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="dualhotbar"
+version="1.0.0"
+displayName="Dual Hotbar"
+authors="dualhotbar"
+description='''Extended hotbars for Minecraft 1.21.1 (NeoForge). Install on BOTH client and server.
+- Bottom hotbar with configurable slot count (1-18)
+- Left/right vertical side hotbars (1-18 slots each), independent storage - fill them from the inventory screen (E)
+- Toggle side bars with a key (default: mouse middle button)
+- Select a side-bar slot to hold and use that item (like the vanilla hotbar, no swapping)
+- Shift+1..9 / Shift+scroll for the left bar, Ctrl+1..9 / Ctrl+scroll for the right bar, 0 key for the 10th bottom slot
+- Vanilla semi-transparent HUD style'''
+
+[[mixins]]
+config="dualhotbar.mixins.json"

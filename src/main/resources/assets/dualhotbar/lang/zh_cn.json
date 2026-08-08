@@ -1,0 +1,11 @@
+{
+  "key.categories.dualhotbar": "双快捷栏",
+  "key.dualhotbar.toggle": "显示/隐藏两侧快捷栏",
+  "config.dualhotbar.title": "双快捷栏配置",
+  "config.dualhotbar.hotbar_slots": "底部快捷栏格子数",
+  "config.dualhotbar.left_slots": "左侧竖栏格子数",
+  "config.dualhotbar.right_slots": "右侧竖栏格子数",
+  "config.dualhotbar.left_enabled": "启用左侧竖栏",
+  "config.dualhotbar.right_enabled": "启用右侧竖栏",
+  "config.dualhotbar.show_by_default": "默认显示两侧竖栏"
+}
