@@ -78,21 +78,6 @@
 
 ---
 
-## 构建 / Building
-
-需要 JDK 21（Gradle 自动下载 Toolchain）与网络。
-*Requires JDK 21 (Gradle downloads the toolchain automatically) and network access.*
-
-```bash
-./gradlew build
-```
-
-产物：`build/libs/dualhotbar-1.0.0.jar`，放入 `.minecraft/mods/`（客户端与服务端都放）。
-*Output: `build/libs/dualhotbar-1.0.0.jar`, drop it into `.minecraft/mods/` (both client and server).*
-
-开发运行：`./gradlew runClient`。 *Development run: `./gradlew runClient`.*
-
----
 
 
 ## 版本 / Versions
