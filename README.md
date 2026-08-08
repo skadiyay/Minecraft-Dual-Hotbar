@@ -54,36 +54,9 @@ Minecraft **1.21.1** / **NeoForge 21.1.248** 模组。**客户端与服务端都
 
 > 创造模式物品栏界面不显示扩展槽（在生存背包界面填充）；创造模式下仍可通过按键/滚轮使用已放入的扩展槽物品。
 
-## 构建
 
-需要 JDK 21（Gradle 自动下载 Toolchain）与网络。
-
-```bash
-./gradlew build
-```
 
 产物：`build/libs/dualhotbar-1.0.0.jar`，放入 `.minecraft/mods/`（客户端与服务端都放）。
 
 开发运行：`./gradlew runClient`。
 
-## 技术要点
-
-- **扩展物品栏**：Mixin `Inventory` 在构造时扩展 `items` 列表（`getContainerSize`/`save`/`load` 自动适配）；`getSelected()` 允许 selected 指向任意扩展槽（"选中即用"的核心）；`swapPaint` 滚轮循环范围扩展到全部底部格。
-- **菜单**：Mixin `InventoryMenu` 在热键行后追加扩展槽行；`InventoryScreen` 加高窗口并绘制半透明面板 + 槽位框；创造模式屏幕（`selectTab`）跳过扩展槽避免重叠。
-- **服务端/客户端同步**：放宽 `ServerGamePacketListenerImpl`/`ClientPacketListener` 的 carried-item 槽位校验（0..getContainerSize()）。
-- **HUD**：底部栏按格裁剪原版 `hud/hotbar` 贴图（首格/中间格/末格三种裁剪实现无缝平铺，任意格数）；侧栏把同一贴图旋转 90°；选中框 `hud/hotbar_selection` 跟随 selected 槽。
-- **输入**：`handleKeybinds` Mixin 拦截 Shift/Ctrl+数字（消费点击防干扰原版）；`0` 键与 Shift/Ctrl 滚轮走 NeoForge 输入事件；切换后立即发包同步 selected。
-
-## 版本
-
-Minecraft 1.21.1 / NeoForge 21.1.248 / ModDevGradle 2.0.143 / Java 21 / Gradle 9.2.1 / Mixin 0.8.7
-
-## 已知问题与修复（v1.0.1 ~ v1.0.4）
-
-- **启动崩溃 `@Redirect handler method dualhotbar$mutableWithSize has an invalid signature`**：@Redirect 的 handler 方法参数类型必须与目标方法**擦除后**的签名一致——`NonNullList.withSize(int, E)` 擦除为 `(int, Object)`，handler 写 `(int, ItemStack)` 会报 InvalidInjectionException。已改为 `(int, Object)` + raw `NonNullList` 返回。
-- **加载存档被踢出"无效的玩家数据"（Invalid player data）**：`Inventory.items` 由 `NonNullList.withSize()` 创建，其 backing 是 `Arrays.asList`（**定长列表，`add()` 抛 `UnsupportedOperationException`**），扩展槽 `items.addAll(...)` 在服务端创建 `ServerPlayer` 时崩溃。已用 `@Redirect` 把 `Inventory.<init>` 中的 `withSize` 替换为 ArrayList-backed 的可变列表（反射调用 protected 构造器，defaultValue 语义保留），`compartments` 引用同一实例自动同步，扩展槽可正常追加。
-- **启动崩溃 `@Shadow method addSlot ... was not located in the target class`**：Mixin 0.8.7 的 `@Shadow` 只解析目标类**自身声明**的成员，定义在父类（`AbstractContainerMenu.addSlot`、`AbstractContainerScreen.imageHeight/leftPos/topPos`、`ClientCommonPacketListenerImpl.minecraft`）的成员在 NeoForge 1.21 官方映射（无 remapper）运行时会直接崩溃。已改用**反射**（`MixinReflect` 工具类）替代这些父类成员的 `@Shadow`。
-- **启动崩溃 `Redirector dualhotbar$skipExtraSlots ... failed injection check, (0/1) succeeded`**：`@Redirect` 的 `At(target="Ljava/util/List;add...")` 只能匹配 owner 为 `java/util/List` 的调用，而 `AbstractContainerMenu.slots/items` 字段类型是 **`NonNullList`**（`slots.add` 编译为 `invokevirtual NonNullList.add`），目标扫描为 0。已改为 `@Inject(method="selectTab", at=@At("TAIL"))` 直接对 `menu.slots` 做 `removeIf` 移除扩展槽。
-- `dualhotbar.mixins.json` 已声明 `refmap`，消除 "No refMap loaded" 提示。
-
-> ⚠️ 拾取物品时若原版 36 格已满，新拾取物会进入扩展槽（底部扩展格/侧栏）——如需限制可后续调整 `Inventory.getFreeSlot`。
