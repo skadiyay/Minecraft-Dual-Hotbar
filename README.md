@@ -58,5 +58,5 @@ Minecraft **1.21.1** / **NeoForge 21.1.248** 模组。**客户端与服务端都
 
 产物：`build/libs/dualhotbar-1.0.0.jar`，放入 `.minecraft/mods/`（客户端与服务端都放）。
 
-开发运行：`./gradlew runClient`。
+
 
