@@ -94,37 +94,6 @@
 
 ---
 
-## 技术要点 / Technical Notes
-
-- **扩展物品栏**：Mixin `Inventory` 用 `@Redirect` 把 `NonNullList.withSize` 替换为 ArrayList-backed 可变列表（原版定长列表 `add()` 会抛异常），再在构造末尾追加扩展槽；`getSelected()` 允许 selected 指向任意扩展槽（"选中即用"的核心）；`swapPaint` 滚轮循环范围扩展到全部底部格。
-  *Extended inventory: a mixin on `Inventory` uses `@Redirect` to swap `NonNullList.withSize` for an ArrayList-backed mutable list (the vanilla fixed-size list throws on `add()`), then appends the extended slots at the end of the constructor; `getSelected()` allows `selected` to point at any extended slot (core of select-and-use); `swapPaint` cycles the whole bottom bar on scroll.*
-- **菜单**：Mixin `InventoryMenu` 在热键行后追加扩展槽行；`InventoryScreen` 加高窗口并绘制半透明面板 + 槽位框；创造模式屏幕（`selectTab`）移除扩展槽避免重叠。
-  *Menus: a mixin on `InventoryMenu` appends the extended-slot rows after the hotbar row; `InventoryScreen` is made taller with a translucent panel + slot frames; the creative screen removes the extended slots in `selectTab` to avoid overlap.*
-- **服务端/客户端同步**：放宽 `ServerGamePacketListenerImpl`/`ClientPacketListener` 的 carried-item 槽位校验（0..getContainerSize()）。
-  *Server/client sync: the carried-item slot validation in `ServerGamePacketListenerImpl`/`ClientPacketListener` is relaxed to 0..getContainerSize().*
-- **HUD**：底部栏按格裁剪原版 `hud/hotbar` 贴图（首格/中间格/末格三种裁剪实现无缝平铺，任意格数）；侧栏把同一贴图旋转 90°；选中框 `hud/hotbar_selection` 跟随 selected 槽。
-  *HUD: the bottom bar tiles the vanilla `hud/hotbar` sprite with per-slot cropping (first/interior/last slot for seamless tiling at any count); the side bars rotate the same sprite 90°; the selection frame `hud/hotbar_selection` follows the selected slot.*
-- **输入**：`handleKeybinds` Mixin 拦截 Shift/Ctrl+数字（消费点击防干扰原版）；`0` 键与 Shift/Ctrl 滚轮走 NeoForge 输入事件；切换后立即发包同步 selected。
-  *Input: a `handleKeybinds` mixin intercepts Shift/Ctrl+number (consuming clicks so vanilla is untouched); the `0` key and Shift/Ctrl scroll go through NeoForge input events; switching immediately syncs `selected` over the network.*
-
----
-
-## 已知问题与修复 / Known Issues & Fixes (v1.0.1 ~ v1.0.4)
-
-- **启动崩溃 / Startup crash: `@Redirect handler ... has an invalid signature`**：@Redirect 的 handler 参数必须与目标方法**泛型擦除后**的签名一致（`NonNullList.withSize(int, E)` → `(int, Object)`），已改为 `(int, Object)`。
-  *A @Redirect handler must match the erased signature of the target method (`NonNullList.withSize(int, E)` → `(int, Object)`); fixed to `(int, Object)`.*
-- **加载存档被踢出 / "Invalid player data" when loading a world**：`NonNullList.withSize` 的 backing 是定长 `Arrays.asList`，`add()` 抛异常导致服务端创建玩家失败。已用 `@Redirect` 换成 ArrayList-backed 可变列表，`compartments` 引用同一实例自动同步。
-  *`NonNullList.withSize` is backed by a fixed-size `Arrays.asList` whose `add()` throws, failing server player creation. A `@Redirect` now returns an ArrayList-backed mutable list; `compartments` references the same instances so it stays in sync.*
-- **启动崩溃 / Startup crash: `@Shadow ... was not located in the target class`**：Mixin 0.8.7 的 `@Shadow` 只解析目标类自身成员，父类成员（如 `AbstractContainerMenu.addSlot`）改用反射（`MixinReflect`）访问。
-  *Mixin 0.8.7 `@Shadow` only resolves members declared in the target class itself; superclass members (e.g. `AbstractContainerMenu.addSlot`) are now accessed via reflection (`MixinReflect`).*
-- **启动崩溃 / Startup crash: `Redirector ... failed injection check, (0/1) succeeded`**：`@Redirect` 指令匹配要求精确 owner（`List.add` vs `NonNullList.add`），改为 `@Inject` 方法级注入。
-  *`@Redirect` instruction matching requires the exact owner (`List.add` vs `NonNullList.add`); replaced with method-level `@Inject`.*
-- `dualhotbar.mixins.json` 已声明 `refmap`，消除 "No refMap loaded" 提示。 *`dualhotbar.mixins.json` declares `refmap` to remove the "No refMap loaded" notice.*
-
-> ⚠️ 拾取物品时若原版 36 格已满，新拾取物会进入扩展槽（底部扩展格/侧栏）——如需限制可后续调整 `Inventory.getFreeSlot`。
-> ⚠️ When the vanilla 36 slots are full, newly picked-up items go into the extended slots (bottom/bar) — `Inventory.getFreeSlot` can be adjusted if you'd rather restrict this.
-
----
 
 ## 版本 / Versions
 
